@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Objects;
 
 @SpringBootApplication
@@ -15,38 +16,19 @@ public class Main {
     }
     @GetMapping("/greet")
     public GreetResponse greet(){
-        return new GreetResponse("Hello");
+        GreetResponse greetResponse =  new GreetResponse(
+                "Hello",
+                List.of("Java","PHP","JavaScript"),
+                new Person("Nelson Sammy",30,1000_000.00)
+        );
+        return greetResponse;
     }
-  //  record GreetResponse(String greet){}
-    class GreetResponse {
-        private final String greet;
+    record Person (String name,int age,double savings){
 
-      GreetResponse(String greet) {
-          this.greet = greet;
-      }
-
-      public String getGreet() {
-          return greet;
-      }
-
-      @Override
-      public String toString() {
-          return "GreetResponse{" +
-                  "greet='" + greet + '\'' +
-                  '}';
-      }
-
-      @Override
-      public boolean equals(Object o) {
-          if (this == o) return true;
-          if (o == null || getClass() != o.getClass()) return false;
-          GreetResponse that = (GreetResponse) o;
-          return Objects.equals(greet, that.greet);
-      }
-
-      @Override
-      public int hashCode() {
-          return Objects.hash(greet);
-      }
-  }
+    }
+    record GreetResponse(
+            String greet,
+            List<String> favProgrammingLanguages,
+            Person person
+    ){}
 }
